@@ -1,0 +1,19 @@
+{
+  "name": "vote-profile",
+  "version": "1.0.0",
+  "description": "An aggregation object for a fair voting system",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "voting",
+    "aggregate",
+    "condercet",
+    "borda",
+    "vote",
+    "votes"
+  ],
+  "author": "thirdcreed",
+  "license": "ISC"
+}
