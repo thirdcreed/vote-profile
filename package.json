@@ -15,5 +15,12 @@
     "votes"
   ],
   "author": "thirdcreed",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "shallow-copy": "0.0.1"
+  },
+  "devDependencies": {
+    "sizeof": "^1.0.0"
+  }
 }
