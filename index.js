@@ -115,7 +115,6 @@ P.vote(['a','b','c']);
 console.log(P.find(['a', 'b', 'd', 'c']));
 console.log(P.find(['a', 'b', 'c', 'd']));
 console.log(P.find(['a', 'b']));
-console.log(sizeOf(P.data,true));
 
 var veto = scoring("veto");
 var borda = scoring("borda");
