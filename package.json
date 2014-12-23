@@ -1,5 +1,5 @@
 {
-  "name": "vote-profile",
+  "name": "fair-vote-profile",
   "version": "0.0.2",
   "description": "A voting profile for a fair voting system",
   "main": "index.js",
