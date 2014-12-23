@@ -1,7 +1,7 @@
 {
   "name": "vote-profile",
-  "version": "1.0.0",
-  "description": "An aggregation object for a fair voting system",
+  "version": "0.0.2",
+  "description": "A voting profile for a fair voting system",
   "main": "index.js",
   "scripts": {
     "test": "test"
@@ -22,5 +22,6 @@
   },
   "devDependencies": {
     "sizeof": "^1.0.0"
-  }
+  },
+  "repository" : "https://github.com/thirdcreed/vote-profile"
 }
