@@ -13,7 +13,7 @@ var blankScores = {};
  _.each(candidates,function(candidate){
        blankScores[candidate] = 0; 
  });
- return copy(blankScores);
+    return copy(blankScores);
 };
 
 
