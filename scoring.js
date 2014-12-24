@@ -1,9 +1,9 @@
 var copy = require('shallow-copy');
 var _ = require('lodash');
 module.exports = function score(scoreMethod){
-    
+     
     scoreMethod = scoreMethod || "borda";
-    return common[scoreMethod] || require("vote-method-" + scoreMethod);
+    return common[scoreMethod](this) || require("vote-method-" + scoreMethod)(this);
 
 };
 

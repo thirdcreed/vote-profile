@@ -1,5 +1,4 @@
 var _ = require('lodash');
-var scoring = require('./scoring.js'); 
 var Profile = function () {
 
     var _votingHasBegun = false;
@@ -48,6 +47,8 @@ var Profile = function () {
         });
     });    
   };
+
+   this.score = require('./scoring.js').bind(this);
 };
 
 
@@ -58,10 +59,7 @@ P.vote(['a', 'b', 'c', 'd']);
 P.vote(['a', 'b', 'd', 'c']);
 P.vote(['a','b','c']);
 
-var veto = scoring("veto");
-var borda = scoring("borda");
-var plurality = scoring("plurality");
+console.log(P.score("veto"));
+console.log(P.score("borda"));
+console.log(P.score("plurality"));
 
-console.log("borda",borda(P));
-console.log("veto",veto(P));
-console.log("plurality",plurality(P));
