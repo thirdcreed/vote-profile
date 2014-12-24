@@ -3,7 +3,11 @@ vote-profile
 
 Voting profile for fair vote aggregation. 
 
-    npm install fair-vote-profile //install it.
+Install it:
+
+    npm install fair-vote-profile
+
+Use it:
 
     var Profile = require('fair-vote-profile'); //require it
     var P = new Profile(); //New election
@@ -17,7 +21,14 @@ Voting profile for fair vote aggregation.
     
     //your vote is stored in a profile, 
    
-   
+    P.score("borda"); // Outputs scores of each candidate, in a borda election.
+    
+
+There is extremely minimal coverage for voting methods right now, until I have settled on A data structure, for
+the voting profile.  Methods are pluggable, if you need one in right away, look at scoring.js for examples, and either
+include them or write your own method that takes a profile as an input, and outputs an object like this: {a:score,b:score ...}
+name it vote-method-YOURMETHOD, and npm install it. Currently I'm working on condercet-method, and it's variants.
+    
    
 
 
