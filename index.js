@@ -4,6 +4,7 @@ var Profile = function () {
     var _votingHasBegun = false;
     
     this.dominanceMatrix = [];
+    this.data = [];
 
     function initializeMatrix(arr){
       var matrix = [];
@@ -16,7 +17,7 @@ var Profile = function () {
       }
 
      var updateDominanceMatrix = _.bind(function updateDominanceMatrix(ordering){ 
-	
+        var candidateMap = this.candidateMap;	
 	var unwrittenCandidates = _.difference(this.candidates,ordering);
 
 	var numOrdering = _.map(ordering, function(item){
@@ -40,15 +41,11 @@ var Profile = function () {
 	
      },this);
 
-    var candidateMap ={}; 
-    this.candidates = [];
-    this.data = [];
-
     this.setCandidates = function setCandidates(nominees){
 	if (_votingHasBegun) return;
 	this.candidates = nominees;
 	this.dominanceMatrix = initializeMatrix(nominees);
-        candidateMap = _.invert(nominees);
+        this.candidateMap = _.invert(nominees);
     };
 
     this.find = function find(ordering) {
@@ -102,5 +99,5 @@ P.vote(['a','b','c']);
 console.log(P.score("veto"));
 console.log(P.score("borda"));
 console.log(P.score("plurality"));
-
+console.log(P.score("black"));
 console.log(P.dominanceMatrix);
