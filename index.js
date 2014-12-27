@@ -1,8 +1,8 @@
 var _ = require('lodash');
-var Profile = function () {
-
+var Profile = function Profile() {
+    var self = this;
     var _votingHasBegun = false;
-    
+    this.candidateMap = {};
     this.dominanceMatrix = [];
     this.data = [];
 
@@ -16,36 +16,34 @@ var Profile = function () {
         return matrix;
       }
 
-     var updateDominanceMatrix = _.bind(function updateDominanceMatrix(ordering){ 
-        var candidateMap = this.candidateMap;	
-	var unwrittenCandidates = _.difference(this.candidates,ordering);
+     var updateDominanceMatrix = function updateDominanceMatrix(ordering){ 
+	var unwrittenCandidates = _.difference(self.candidates,ordering);
 
 	var numOrdering = _.map(ordering, function(item){
-	    return candidateMap[item];
+	    return self.candidateMap[item];
 	});
-        
 	for(var i=0;i < ordering.length;i++){
 	    for(var j=i; j < ordering.length;j++){
 	       if(i != j){
-	           this.dominanceMatrix[numOrdering[i]][numOrdering[j]]++;
+	           self.dominanceMatrix[numOrdering[i]][numOrdering[j]]++;
 	       }
 	    }
 	}
 
 	for(var ii=0; ii < unwrittenCandidates.length;ii++){
-	    var unwritten = candidateMap[unwrittenCandidates[ii]]; 
+	    var unwritten = self.candidateMap[unwrittenCandidates[ii]]; 
 	    for(var jj=0; jj < numOrdering.length;jj++){
-	        this.dominanceMatrix[numOrdering[jj]][unwritten]++; 		    
+	        self.dominanceMatrix[numOrdering[jj]][unwritten]++; 		    
 	   }	
 	}
 	
-     },this);
+     };
 
     this.setCandidates = function setCandidates(nominees){
 	if (_votingHasBegun) return;
-	this.candidates = nominees;
-	this.dominanceMatrix = initializeMatrix(nominees);
-        this.candidateMap = _.invert(nominees);
+	self.candidates = nominees;
+	self.dominanceMatrix = initializeMatrix(nominees);
+        self.candidateMap = _.invert(nominees);
     };
 
     this.find = function find(ordering) {
@@ -88,16 +86,5 @@ var Profile = function () {
    this.score = require('./scoring.js').bind(this);
 };
 
+module.exports = Profile;
 
-var P = new Profile();
-P.setCandidates(['a','b','c','d']);
-P.vote(['a', 'b', 'c', 'd']);
-P.vote(['a', 'b', 'c', 'd']);
-P.vote(['a', 'b', 'd', 'c']);
-P.vote(['a','b','c']);
-
-console.log(P.score("veto"));
-console.log(P.score("borda"));
-console.log(P.score("plurality"));
-console.log(P.score("black"));
-console.log(P.dominanceMatrix);
