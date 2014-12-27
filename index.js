@@ -1,7 +1,9 @@
 var _ = require('lodash');
+var pairwise = require('./pairwise.js');
+
 var Profile = function Profile() {
     var self = this;
-   
+
     var _votingHasBegun = false;
     this.candidateMap = {};
     this.data = [];
@@ -9,119 +11,75 @@ var Profile = function Profile() {
     this.dominanceMatrix = undefined;
     this.initializeMatrix = _.noop;
     this.updateDominanceMatrix = _.noop;
-    
+
     this.approvalMatrix = undefined;
     this.approvalData = _.noop;
 
-    this.setCandidates = function setCandidates(nominees){
-	if (_votingHasBegun) return;
-	self.candidates = nominees;
-	self.dominanceMatrix = self.initializeMatrix(nominees);
+    this.setCandidates = function setCandidates(nominees) {
+        if (_votingHasBegun) return;
+        self.candidates = nominees;
+        self.dominanceMatrix = self.initializeMatrix(nominees);
         self.candidateMap = _.invert(nominees);
     };
 
     this.find = function find(ordering) {
-	var key = ordering.join("_");
-	return  _.where(this.data,{"key":key});
+        var key = ordering.join("_");
+        return _.where(this.data, {
+            "key": key
+        });
     };
 
     this.vote = function vote(ordering) {
-        
-	_votingHasBegun = true;
-         
-	var key = ordering.join("_");
-	var priorVote = _.where(this.data,{"key":key})[0];
-	
-	self.updateDominanceMatrix(ordering);
-   
-   	if (priorVote) {
-	    priorVote.numVotes++;
-	    return;
-	}
 
-	var newVote = {
-		    "key":key,
-	            "ordering":ordering,
-		    "numVotes":1,
-		    };
+        _votingHasBegun = true;
+
+        var key = ordering.join("_");
+        var priorVote = _.where(this.data, {
+            "key": key
+        })[0];
+
+        self.updateDominanceMatrix(ordering);
+
+        if (priorVote) {
+            priorVote.numVotes++;
+            return;
+        }
+
+        var newVote = {
+            "key": key,
+            "ordering": ordering,
+            "numVotes": 1,
+        };
 
         this.data.push(newVote);
 
-       };
-       
+    };
 
-    this.each = function each(visitFunc){ 
-    _.each(this.data,function(ordering){
-        _.each(ordering.ordering,function(voteValue,index){
-             visitFunc(ordering,voteValue,index);  
+
+    this.each = function each(visitFunc) {
+        _.each(this.data, function (ordering) {
+            _.each(ordering.ordering, function (voteValue, index) {
+                visitFunc(ordering, voteValue, index);
+            });
         });
-    });    
-  };
+    };
 
-   this.score = require('./scoring.js').bind(this);
+    this.extend = function extend(package) {
+        var extension;
+        if (typeof package == 'function') {
+            var key = package.name;
+            extension = {
+                key: package
+            };
+        } else {
+            extension = (require("./extensions.js").bind(self))(package);
+        }
+
+        _.mixin(this, extension);
+
+    };
+
+    this.score = require('./scoring.js').bind(this);
 };
 
 module.exports = Profile;
-
-
-var p = new Profile();
-p.setCandidates(["a","b"]);
-p.vote(["a","b"]);
-
-_.mixin(p,{"initializeMatrix":
-    function initializeMatrix(arr){
-      var matrix = [];
-
-          for(var i = 0; i < arr.length;i++){
-              matrix.push(_.range(0,arr.length,0));
-          }
-
-        return matrix;
-      }
-
-});
-console.log(p);
-/*
-     var updateDominanceMatrix = function updateDominanceMatrix(ordering){ 
-	var unwrittenCandidates = _.difference(self.candidates,ordering);
-
-	var numOrdering = _.map(ordering, function(item){
-	    return self.candidateMap[item];
-	});
-	for(var i=0;i < ordering.length;i++){
-	    for(var j=i; j < ordering.length;j++){
-	       if(i != j){
-	           self.dominanceMatrix[numOrdering[i]][numOrdering[j]]++;
-	       }
-	    }
-	}
-
-	for(var ii=0; ii < unwrittenCandidates.length;ii++){
-	    var unwritten = self.candidateMap[unwrittenCandidates[ii]]; 
-	    for(var jj=0; jj < numOrdering.length;jj++){
-	        self.dominanceMatrix[numOrdering[jj]][unwritten]++; 		    
-	   }	
-	}
-	
-     };
-
-
-
-
-
-
-
-
-
-    function initializeMatrix(arr){
-      var matrix = [];
-
-          for(var i = 0; i < arr.length;i++){
-              matrix.push(_.range(0,arr.length,0));
-          }
-
-        return matrix;
-      }
-
-
-*/
