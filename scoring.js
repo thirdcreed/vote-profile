@@ -3,7 +3,7 @@ var _ = require('lodash');
 module.exports = function score(scoreMethod){
      
     scoreMethod = scoreMethod || "borda";
-    return common[scoreMethod](this) || require("vote-method-" + scoreMethod)(this);
+    return common[scoreMethod] ? common[scoreMethod](this) : require("vote-method-" + scoreMethod)(this);
 
 };
 
@@ -13,7 +13,7 @@ var blankScores = {};
  _.each(candidates,function(candidate){
        blankScores[candidate] = 0; 
  });
- return copy(blankScores);
+    return copy(blankScores);
 };
 
 

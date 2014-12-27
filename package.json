@@ -18,10 +18,11 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^2.4.1",
-    "shallow-copy": "0.0.1"
+    "shallow-copy": "0.0.1",
+    "vote-method-black": "0.0.2"
   },
   "devDependencies": {
     "sizeof": "^1.0.0"
   },
-  "repository" : "https://github.com/thirdcreed/vote-profile"
+  "repository": "https://github.com/thirdcreed/vote-profile"
 }
