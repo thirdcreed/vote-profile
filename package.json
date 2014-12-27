@@ -22,6 +22,7 @@
     "vote-method-black": "0.0.2"
   },
   "devDependencies": {
+    "should": "^4.4.1",
     "sizeof": "^1.0.0"
   },
   "repository": "https://github.com/thirdcreed/vote-profile"
