@@ -24,10 +24,10 @@ describe('Profile', function () {
     condercetNoTies.vote(["a", "b", "c"]);
     condercetNoTies.vote(["b", "a", "c"]);
 
-    condercetWithTies.setCandidates(["a", "b", "c"]);
-    condercetWithTies.vote(["a", "b", "c"]);
-    condercetWithTies.vote(["a", "b", "c"]);
-    condercetWithTies.vote(["b", "a", "c"]);
+    condercetWithTies.setCandidates(["a", "b", "c","d","e"]);
+    condercetWithTies.vote(["a", "b", ["c","d"],"e"]);
+    condercetWithTies.vote([["b", "a"], "c","d","e"]);
+    condercetWithTies.vote(["b", "a", ["c","d"]]);
 
 
 
@@ -72,6 +72,16 @@ describe('Profile', function () {
                 "b": 0,
                 "c": 0
             }, condercetNoTies.score("black"));
+        });
+
+	 it('should correctly score with the black method with ties', function () {
+            assert.deepEqual({
+                "a": 1,
+                "b": 1,
+                "c": 0,
+		"d": 0,
+		"e": 0
+            }, condercetWithTies.score("black"));
         });
 
     });
