@@ -4,9 +4,8 @@ module.exports = function (package) {
 
 };
 
-
 var common = {
-    "dominance": require("./pairwise.js"),
+    "condercet": require("./pairwise.js"),
     "approval": {
         "approvalData": function () {
             console.log("test");
