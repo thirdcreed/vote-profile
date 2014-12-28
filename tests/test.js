@@ -5,13 +5,10 @@ var Profile = require("../index.js");
 describe('Profile', function () {
 
     var noExtensionsWithTies = new Profile();
-    var condercetNoTies = new Profile();
-    var condercetWithTies = new Profile();
-    var approvalNoTies = new Profile();
+    var condercetNoTies = new Profile("condercet");
+    var condercetWithTies = new Profile("condercet");
+    var approvalNoTies = new Profile("approval");
 
-    condercetNoTies.extend("condercet");
-    condercetWithTies.extend("condercet");
-    approvalNoTies.extend("approval");
 
     noExtensionsWithTies.setCandidates(["a", "b", "c", "d"]);
     noExtensionsWithTies.vote([["a", "b"], "c", "d"]);

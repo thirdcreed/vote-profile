@@ -80,6 +80,8 @@ var Profile = function Profile() {
     };
 
     this.score = require('./scoring.js').bind(this);
+
+    _.each(arguments,extend);
 };
 
 module.exports = Profile;
