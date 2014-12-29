@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var pairwise = require('./pairwise.js');
+var pairwise = require('./extensions/pairwise.js');
 
 var Profile = function Profile() {
     var self = this;
