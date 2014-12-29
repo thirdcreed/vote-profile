@@ -5,7 +5,7 @@ module.exports = function (package) {
 };
 
 var common = {
-    "condercet": require("./pairwise.js"),
+    "condercet": require("./extensions/pairwise.js"),
     "approval": {
         "approvalData": function () {
             console.log("test");

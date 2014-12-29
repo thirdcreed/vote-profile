@@ -1,6 +1,6 @@
 var copy = require('shallow-copy');
 var _ = require('lodash');
-var condercet = require('./condercet.js');
+var condercet = require('./methods/condercet.js');
 
 module.exports = function score(scoreMethod) {
 
@@ -79,5 +79,5 @@ var common = {
         return _.isEmpty(condercetWinners) ? bordaWinners : condercetWinners;
 
     },
-    schulze: require("./schulze.js")
+    schulze: require("./methods/schulze.js")
 };
