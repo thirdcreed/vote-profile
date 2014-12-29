@@ -74,14 +74,14 @@ var Profile = function Profile() {
         } else {
             extension = (require("./extensions.js").bind(self))(package);
         }
-
-        _.mixin(this, extension);
+	
+        _.mixin(self, extension);
 
     };
 
     this.score = require('./scoring.js').bind(this);
 
-    _.each(arguments,extend);
+    _.each(arguments,this.extend);
 };
 
 module.exports = Profile;
