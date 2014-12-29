@@ -1,5 +1,12 @@
 var assert = require('assert');
 var Profile = require("../index.js");
+var voteNTimes = function voteNTimes(p,ballot,N){
+
+for(var i =0; i < N; i ++){
+   p.vote(ballot);
+}
+
+};
 
 
 describe('Profile', function () {
@@ -8,6 +15,17 @@ describe('Profile', function () {
     var condercetNoTies = new Profile("condercet");
     var condercetWithTies = new Profile("condercet");
     var approvalNoTies = new Profile("approval");
+    var schulzeNoTies = new Profile("condercet");
+
+    schulzeNoTies.setCandidates(["a","b","c","d","e"]);
+    voteNTimes(schulzeNoTies,["a","c","b","e","d"],5);
+    voteNTimes(schulzeNoTies,["a","d","e","c","b"],5);
+    voteNTimes(schulzeNoTies,["b","e","d","a","c"],8);
+    voteNTimes(schulzeNoTies,["c","a","b","e","d"],3);
+    voteNTimes(schulzeNoTies,["c","a","e","b","d"],7);
+    voteNTimes(schulzeNoTies,["c","b","a","d","e"],2);
+    voteNTimes(schulzeNoTies,["d","c","e","b","a"],7);
+    voteNTimes(schulzeNoTies,["e","b","a","d","c"],8);
 
 
     noExtensionsWithTies.setCandidates(["a", "b", "c", "d"]);
@@ -80,12 +98,20 @@ describe('Profile', function () {
 		"e": 0
             }, condercetWithTies.score("black"));
         });
-
+       it('should correctly score with the schulze method', function(){
+         assert.deepEqual({
+	        "a": 30,
+                "b": 33,
+                "c": 29,
+		"d": 28,
+		"e": 31
+	 }, schulzeNoTies.score("schulze"));
+       });
     });
 
     describe("#extend", function () {
 
-        it('should not have a domniance matrix without first extending ', function () {
+        it('should not have a dominance matrix without first extending ', function () {
             assert.equal(undefined, noExtensionsWithTies.dominanceMatrix);
         });
 

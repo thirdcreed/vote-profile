@@ -78,5 +78,6 @@ var common = {
 
         return _.isEmpty(condercetWinners) ? bordaWinners : condercetWinners;
 
-    }
+    },
+    schulze: require("./schulze.js")
 };

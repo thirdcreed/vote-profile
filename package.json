@@ -18,8 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^2.4.1",
-    "shallow-copy": "0.0.1",
-    "vote-method-black": "0.0.2"
+    "shallow-copy": "0.0.1"
   },
   "devDependencies": {
     "should": "^4.4.1",
