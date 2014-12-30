@@ -1,6 +1,6 @@
-module.exports = function (package) {
+module.exports = function (addOn) {
 
-    return common[package] ? common[package] : require("profile-extension-" + package);
+    return common[addOn] ? common[addOn] : require("profile-extension-" + addOn);
 
 };
 

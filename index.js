@@ -5,8 +5,8 @@ var Profile = function Profile() {
     var self = this;
 
     var _votingHasBegun = false;
-    this.candidateMap = {};
-    this.data = [];
+    this.alternativeMap = {};
+    this.votes = [];
 
     this.dominanceMatrix = undefined;
     this.initializeMatrix = _.noop;
@@ -15,30 +15,31 @@ var Profile = function Profile() {
     this.approvalMatrix = undefined;
     this.approvalData = _.noop;
 
-    this.setCandidates = function setCandidates(nominees) {
+    this.setAlternatives = function setAlternatives(alternatives) {
         if (_votingHasBegun) return;
-        self.candidates = nominees;
-        self.dominanceMatrix = self.initializeMatrix(nominees);
-        self.candidateMap = _.invert(nominees);
+        self.alternatives = alternatives;
+	var n = m = alternatives.length;
+        self.dominanceMatrix = self.initializeMatrix(n,m);
+        self.alternativeMap = _.invert(alternatives);
     };
 
     this.find = function find(ordering) {
         var key = ordering.join("_");
-        return _.where(this.data, {
+        return _.where(this.votes, {
             "key": key
         });
     };
 
-    this.vote = function vote(ordering) {
+    this.vote = function vote(ballot) {
 
         _votingHasBegun = true;
 
-        var key = ordering.join("_");
-        var priorVote = _.where(this.data, {
+        var key = ballot.join("_");
+        var priorVote = _.where(this.votes, {
             "key": key
         })[0];
 
-        self.updateDominanceMatrix(ordering);
+        self.updateDominanceMatrix(ballot);
 
         if (priorVote) {
             priorVote.numVotes++;
@@ -47,35 +48,35 @@ var Profile = function Profile() {
 
         var newVote = {
             "key": key,
-            "ordering": ordering,
+            "ordering": ballot,
             "numVotes": 1,
         };
 
-        this.data.push(newVote);
+        this.votes.push(newVote);
 
     };
 
 
     this.each = function each(visitFunc) {
-        _.each(this.data, function (ordering) {
-            _.each(ordering.ordering, function (voteValue, index) {
-                visitFunc(ordering, voteValue, index);
+        _.each(this.votes, function (order) {
+            _.each(order.ordering, function (voteValue, index) {
+                visitFunc(order, voteValue, index);
             });
         });
     };
 
-    this.extend = function extend(package) {
+    this.extend = function extend(addOn) {
         var extension;
-        if (typeof package == 'function') {
-            var key = package.name;
+        if (typeof addOn == 'function') {
+            var key = addOn.name;
             extension = {
-                key: package
+                key: addOn
             };
         } else {
-            extension = (require("./extensions.js").bind(self))(package);
+           addOn = (require("./extensions.js").bind(self))(addOn);
         }
 	
-        _.mixin(self, extension);
+        _.mixin(self, addOn);
 
     };
 

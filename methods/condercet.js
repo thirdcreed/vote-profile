@@ -2,17 +2,17 @@ var _ = require("lodash");
 var copy = require("shallow-copy");
 
 
-var getBlankScores = function getBlankScores(candidates) {
+var getBlankScores = function getBlankScores(alternatives) {
 
     var blankScores = {};
-    _.each(candidates, function (candidate) {
-        blankScores[candidate] = 0;
+    _.each(alternatives, function (alternative) {
+        blankScores[alternative] = 0;
     });
     return copy(blankScores);
 };
 
 module.exports = function condercet(P) {
-    var scores = getBlankScores(P.candidates);
+    var scores = getBlankScores(P.alternatives);
 
     var sumMatrix = P.dominanceMatrix;
     var pairwise = [];
@@ -27,20 +27,20 @@ module.exports = function condercet(P) {
         return voteDiff >= 0;
     };
 
-    var numToName = _.invert(P.candidateMap);
+    var numToName = _.invert(P.alternativeMap);
 
-    var mapToScoringObjects = function mapToScoringObjects(candidate, index) {
+    var mapToScoringObjects = function mapToScoringObjects(alternative, index) {
         return {
             "name": numToName[index],
-            "winner": _.every(candidate, isVoteDeltaPositive)
+            "winner": _.every(alternative, isVoteDeltaPositive)
         };
 
     };
 
     _.chain(pairwise)
         .map(mapToScoringObjects)
-        .filter(function (candidate) {
-            return candidate.winner;
+        .filter(function (alternative) {
+            return alternative.winner;
         })
         .pluck("name")
         .each(function (winner) {
