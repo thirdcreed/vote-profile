@@ -1,6 +1,6 @@
 {
   "name": "fair-vote-profile",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A voting profile for a fair voting system",
   "main": "index.js",
   "scripts": {

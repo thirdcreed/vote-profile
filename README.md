@@ -11,10 +11,11 @@ Use it:
 
     var Profile = require('fair-vote-profile'); //require it
     var P = new Profile(); //New election
-   
+    var P2 = new Profile("condercet"); //extend
+
     P.setCandidates(['a','b','d','e']); //these are the candidates;
    
-    P.vote(['b,'a','d','e']); //vote
+    P.vote(['b','a','d','e']); //vote
     P.vote([['b,'a'],'e','d']); //vote with a tie
     P.vote(['e,'d','a']); //incomplete vote
     P.vote(['d,'b','a','e']);
