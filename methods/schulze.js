@@ -3,7 +3,6 @@ var copy = require("shallow-copy");
 
 module.exports = function schulze(P) {
    
-    // Path
     var d = P.dominanceMatrix;
     var C = P.alternatives;
     var n = P.alternatives.length;
