@@ -9,11 +9,11 @@ module.exports = function score(scoreMethod) {
 
 };
 
-var getBlankScores = function getBlankScores(candidates) {
+var getBlankScores = function getBlankScores(alternatives) {
 
     var blankScores = {};
-    _.each(candidates, function (candidate) {
-        blankScores[candidate] = 0;
+    _.each(alternatives, function (alternative) {
+        blankScores[alternative] = 0;
     });
     return copy(blankScores);
 };
@@ -22,16 +22,16 @@ var getBlankScores = function getBlankScores(candidates) {
 var common = {
 
     borda: function borda(P) {
-        var score = getBlankScores(P.candidates);
+        var score = getBlankScores(P.alternatives);
 
         P.each(function (obj, val, i) {
             if (_.isArray(val)) {
                 _.each(val, function (tied) {
-                    score[tied] += ((P.candidates.length - i) * obj.numVotes);
+                    score[tied] += ((P.alternatives.length - i) * obj.numVotes);
                 });
                 return;
             }
-            score[val] += ((P.candidates.length - i) * obj.numVotes);
+            score[val] += ((P.alternatives.length - i) * obj.numVotes);
         });
 
         return score;
@@ -39,7 +39,7 @@ var common = {
 
     plurality: function plurality(P) {
 
-        var score = getBlankScores(P.candidates);
+        var score = getBlankScores(P.alternatives);
 
         P.each(function (obj, val, i) {
             if (_.isArray(val)) {
@@ -56,7 +56,7 @@ var common = {
 
     veto: function veto(P) {
 
-        var score = getBlankScores(P.candidates);
+        var score = getBlankScores(P.alternatives);
 
         P.each(function (obj, val, i) {
             if (_.isArray(val)) {

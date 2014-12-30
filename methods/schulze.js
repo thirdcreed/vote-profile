@@ -2,18 +2,20 @@ var _ = require("lodash");
 var copy = require("shallow-copy");
 
 module.exports = function schulze(P) {
-    /*
-
-*/
+   
+    // Path
     var d = P.dominanceMatrix;
-    var C = P.candidates;
-    var p = P.initializeMatrix(P.candidates);
+    var C = P.alternatives;
+    var n = P.alternatives.length;
+    var p = P.initializeMatrix(n,n);
     var scores = {};
-    var numToName = _.invert(P.candidateMap);
+    var numToName = _.invert(P.alternativeMap);
 
+    //Find strongest path from any runner to any opponent, using a well understood algorithm:
+    // Floyd Warshall
 
-        for (var i = 0; i < C.length; i++) {
-            for (var j = 0; j < C.length; j++) {
+        for (var i = 0; i < n; i++) {
+            for (var j = 0; j < n; j++) {
                 if (i != j) {
                     if (d[i][j] > d[j][i]) {
                         p[i][j] = d[i][j];
@@ -22,10 +24,11 @@ module.exports = function schulze(P) {
                 }
             }
         }
-        for (var ii = 0; ii < C.length ; ii++) {
-            for (var jj = 0; jj < C.length ; jj++) {
+
+        for (var ii = 0; ii < n ; ii++) {
+            for (var jj = 0; jj < n ; jj++) {
                 if (ii != jj) {
-                    for (var k = 0; k < C.length ; k++) {
+                    for (var k = 0; k < n ; k++) {
                         if (ii != k && jj != k) {
                             p[jj][k] = Math.max(p[jj][k], Math.min(p[jj][ii], p[ii][k]));
 
@@ -36,9 +39,10 @@ module.exports = function schulze(P) {
 
             }
         }
+    
     var highest =
-        _.map(p, function (candidate) {
-            return _.max(candidate);
+        _.map(p, function (alternative) {
+            return _.max(alternative);
         });
     
     _.each(highest, function (strongestPath, index) {
@@ -47,8 +51,5 @@ module.exports = function schulze(P) {
         
     });
 
-
     return scores;
-
-
 };

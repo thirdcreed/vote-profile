@@ -17,7 +17,7 @@ describe('Profile', function () {
     var approvalNoTies = new Profile("approval");
     var schulzeNoTies = new Profile("condercet");
 
-    schulzeNoTies.setCandidates(["a","b","c","d","e"]);
+    schulzeNoTies.setAlternatives(["a","b","c","d","e"]);
     voteNTimes(schulzeNoTies,["a","c","b","e","d"],5);
     voteNTimes(schulzeNoTies,["a","d","e","c","b"],5);
     voteNTimes(schulzeNoTies,["b","e","d","a","c"],8);
@@ -28,18 +28,18 @@ describe('Profile', function () {
     voteNTimes(schulzeNoTies,["e","b","a","d","c"],8);
 
 
-    noExtensionsWithTies.setCandidates(["a", "b", "c", "d"]);
+    noExtensionsWithTies.setAlternatives(["a", "b", "c", "d"]);
     noExtensionsWithTies.vote([["a", "b"], "c", "d"]);
     noExtensionsWithTies.vote(["b", "c", "a", "d"]);
     noExtensionsWithTies.vote(["b", "c", "d", "a"]);
     noExtensionsWithTies.vote(["c", "d", "b", "a"]);
 
-    condercetNoTies.setCandidates(["a", "b", "c"]);
+    condercetNoTies.setAlternatives(["a", "b", "c"]);
     condercetNoTies.vote(["a", "b", "c"]);
     condercetNoTies.vote(["a", "b", "c"]);
     condercetNoTies.vote(["b", "a", "c"]);
 
-    condercetWithTies.setCandidates(["a", "b", "c","d","e"]);
+    condercetWithTies.setAlternatives(["a", "b", "c","d","e"]);
     condercetWithTies.vote(["a", "b", ["c","d"],"e"]);
     condercetWithTies.vote([["b", "a"], "c","d","e"]);
     condercetWithTies.vote(["b", "a", ["c","d"]]);
@@ -48,7 +48,7 @@ describe('Profile', function () {
 
     describe("#data", function () {
         it("should have the correct vote aggregation data", function () {
-            assert.equal(1, noExtensionsWithTies.data[0].numVotes);
+            assert.equal(1, noExtensionsWithTies.votes[0].numVotes);
         });
     });
 
