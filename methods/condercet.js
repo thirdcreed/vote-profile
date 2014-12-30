@@ -1,17 +1,9 @@
 var _ = require("lodash");
 var copy = require("shallow-copy");
-
-
-var getBlankScores = function getBlankScores(alternatives) {
-
-    var blankScores = {};
-    _.each(alternatives, function (alternative) {
-        blankScores[alternative] = 0;
-    });
-    return copy(blankScores);
-};
+var getBlankScores = require('./utils.js').getBlankScores;
 
 module.exports = function condercet(P) {
+
     var scores = getBlankScores(P.alternatives);
 
     var sumMatrix = P.dominanceMatrix;
