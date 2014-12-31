@@ -1,5 +1,6 @@
 var assert = require('assert');
 var Profile = require("../index.js");
+
 var voteNTimes = function voteNTimes(p,ballot,N){
 
 for(var i =0; i < N; i ++){
@@ -8,56 +9,45 @@ for(var i =0; i < N; i ++){
 
 };
 
+var tenessee = function tenesee(P){
+ 
+    P.setAlternatives(["Memphis","Nashville","Chatanooga","Knoxville"]);
+    voteNTimes(P,["Memphis","Nashville","Chatanooga","Knoxville"],42);
+    voteNTimes(P,["Nashville","Chatanooga","Knoxville","Memphis"],26);
+    voteNTimes(P,["Chatanooga","Knoxville","Nashville","Memphis"],15);
+    voteNTimes(P,["Knoxville","Chatanooga","Nashville","Memphis"],17);
+  
+  return P;
+
+};
+
+
 
 describe('Profile', function () {
 
-    var noExtensionsWithTies = new Profile();
-    var condercetNoTies = new Profile("condercet");
-    var condercetWithTies = new Profile("condercet");
-    var approvalNoTies = new Profile("approval");
-    var schulzeNoTies = new Profile("condercet");
-    var minimaxNoTies = new Profile("condercet");
-    
+    var borda = tenessee(new Profile());
+    var black = tenessee(new Profile("condercet"));
+    var plurality = tenessee(new Profile("condercet"));
+    var schulze = new Profile("condercet");
+    var schulze2 = tenessee(new Profile("condercet"));
+    var minimax = tenessee(new Profile("condercet"));
+    var copeland = tenessee(new Profile("condercet"));
      
-    minimaxNoTies.setAlternatives(["Memphis","Nashville","Chatanooga","Knoxville"]);
-    voteNTimes(minimaxNoTies,["Memphis","Nashville","Chatanooga","Knoxville"],42);
-    voteNTimes(minimaxNoTies,["Nashville","Chatanooga","Knoxville","Memphis"],26);
-    voteNTimes(minimaxNoTies,["Chatanooga","Knoxville","Nashville","Memphis"],15);
-    voteNTimes(minimaxNoTies,["Knoxville","Chatanooga","Nashville","Memphis"],17);
-
-
-    schulzeNoTies.setAlternatives(["a","b","c","d","e"]);
-    voteNTimes(schulzeNoTies,["a","c","b","e","d"],5);
-    voteNTimes(schulzeNoTies,["a","d","e","c","b"],5);
-    voteNTimes(schulzeNoTies,["b","e","d","a","c"],8);
-    voteNTimes(schulzeNoTies,["c","a","b","e","d"],3);
-    voteNTimes(schulzeNoTies,["c","a","e","b","d"],7);
-    voteNTimes(schulzeNoTies,["c","b","a","d","e"],2);
-    voteNTimes(schulzeNoTies,["d","c","e","b","a"],7);
-    voteNTimes(schulzeNoTies,["e","b","a","d","c"],8);
-
-
-    noExtensionsWithTies.setAlternatives(["a", "b", "c", "d"]);
-    noExtensionsWithTies.vote([["a", "b"], "c", "d"]);
-    noExtensionsWithTies.vote(["b", "c", "a", "d"]);
-    noExtensionsWithTies.vote(["b", "c", "d", "a"]);
-    noExtensionsWithTies.vote(["c", "d", "b", "a"]);
-
-    condercetNoTies.setAlternatives(["a", "b", "c"]);
-    condercetNoTies.vote(["a", "b", "c"]);
-    condercetNoTies.vote(["a", "b", "c"]);
-    condercetNoTies.vote(["b", "a", "c"]);
-
-    condercetWithTies.setAlternatives(["a", "b", "c","d","e"]);
-    condercetWithTies.vote(["a", "b", ["c","d"],"e"]);
-    condercetWithTies.vote([["b", "a"], "c","d","e"]);
-    condercetWithTies.vote(["b", "a", ["c","d"]]);
-
-
+     
+    schulze.setAlternatives(["a","b","c","d","e"]);
+    voteNTimes(schulze,["a","c","b","e","d"],5);
+    voteNTimes(schulze,["a","d","e","c","b"],5);
+    voteNTimes(schulze,["b","e","d","a","c"],8);
+    voteNTimes(schulze,["c","a","b","e","d"],3);
+    voteNTimes(schulze,["c","a","e","b","d"],7);
+    voteNTimes(schulze,["c","b","a","d","e"],2);
+    voteNTimes(schulze,["d","c","e","b","a"],7);
+    voteNTimes(schulze,["e","b","a","d","c"],8);
+    
 
     describe("#data", function () {
         it("should have the correct vote aggregation data", function () {
-            assert.equal(1, noExtensionsWithTies.votes[0].numVotes);
+            assert.equal(42, borda.votes[0].numVotes);
         });
     });
 
@@ -65,56 +55,63 @@ describe('Profile', function () {
 
         it('should correctly score with the borda method', function () {
             assert.deepEqual({
-                "a": 8,
-                "b": 14,
-                "c": 13,
-                "d": 8
-            }, noExtensionsWithTies.score("borda"));
+                "Nashville": 294,
+                "Knoxville": 207,
+                "Chatanooga": 273,
+		"Memphis": 226
+            }, borda.score("borda"));
         });
 
         it('should correctly score with the plurlality method', function () {
             assert.deepEqual({
-                "a": 1,
-                "b": 3,
-                "c": 1,
-                "d": 0
-            }, noExtensionsWithTies.score("plurality"));
+                "Nashville": 26,
+                "Knoxville": 17,
+                "Chatanooga": 15,
+		"Memphis": 42
+            }, plurality.score("plurality"));
         });
 
         it('should correctly score with the veto method', function () {
             assert.deepEqual({
-                "a": 4,
-                "b": 4,
-                "c": 4,
-                "d": 4
-            }, noExtensionsWithTies.score("veto"));
+                 "Nashville": 100,
+                "Knoxville": 100,
+                "Chatanooga": 100,
+		"Memphis": 100,
+            }, plurality.score("veto"));
         });
 
         it('should correctly score with the black method', function () {
             assert.deepEqual({
-                "a": 1,
-                "b": 0,
-                "c": 0
-            }, condercetNoTies.score("black"));
+                "Nashville": 1,
+                "Knoxville": 0,
+                "Chatanooga": 0,
+		"Memphis": 0
+            },black.score("black"));
         });
 
 	 it('should correctly score with the black method with ties', function () {
             assert.deepEqual({
-                "a": 1,
-                "b": 1,
-                "c": 0,
-		"d": 0,
-		"e": 0
-            }, condercetWithTies.score("black"));
+                "Nashville": 1,
+                "Knoxville": 0,
+                "Chatanooga": 0,
+		"Memphis": 0
+            }, black.score("black"));
         });
        it('should correctly score with the schulze method', function(){
          assert.deepEqual({
-	        "a": 30,
-                "b": 33,
-                "c": 29,
-		"d": 28,
-		"e": 31
-	 }, schulzeNoTies.score("schulze"));
+	        "a": 3,
+                "b": 1,
+                "c": 2,
+		"d": 0,
+		"e": 4
+	 }, schulze.score("schulze"));
+
+	 assert.deepEqual({
+	        "Nashville": 3,
+                "Knoxville": 1,
+                "Chatanooga":2,
+		"Memphis": 0
+            }, schulze2.score("schulze"));
        });
       it('should correctly score with the minimax method', function(){
          assert.deepEqual({
@@ -122,7 +119,7 @@ describe('Profile', function () {
                 "Knoxville": 4,
                 "Chatanooga": 3,
 		"Memphis": 2
-	 }, minimaxNoTies.score("minimax"));
+	 }, minimax.score("minimax"));
        });
        
        
@@ -131,11 +128,11 @@ describe('Profile', function () {
     describe("#extend", function () {
 
         it('should not have a pairwise matrix without first extending ', function () {
-            assert.equal(undefined, noExtensionsWithTies.pairwiseMatrix);
+            assert.equal(undefined, borda.pairwiseMatrix);
         });
 
         it('should have a pairwise matrix after extending', function () {
-            assert.equal(typeof condercetNoTies.pairwiseMatrix, "object");
+            assert.equal(typeof black.pairwiseMatrix, "object");
         });
     });
 
