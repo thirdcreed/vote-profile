@@ -26,8 +26,8 @@ module.exports = {
             return self.alternativeMap[item];
         });
 
-        var resolvePairwise = function(i,j){
-	     //Eaches are for ties, either runner ties, or opponent ties.
+        var resolveDominance = function(i,j){
+	     //Eaches are for ties, both runner ties, or opponent ties.
                    _.each(numOrdering[i],function(runner){
 		      _.each(numOrdering[j],function(opponent){
 		         self.pairwiseMatrix[runner][opponent]++;
@@ -38,12 +38,12 @@ module.exports = {
         for (var i = 0; i < ordering.length; i++) {
             for (var j = i; j < ordering.length; j++) {
 		if (i != j) {
-		        resolvePairwise(i,j);  
+		        resolveDominance(i,j);  
                 }
             }
         }
 
-      var resolvePairwiseForUnwritten = function resolvePairwiseForUnwritten(jj,unwritten){
+      var resolveDominanceForUnwritten = function resolveDominanceForUnwritten(jj,unwritten){
  	        _.each(numOrdering[jj],function(runner){
 		      self.pairwiseMatrix[runner][unwritten]++;
 		});
@@ -52,7 +52,7 @@ module.exports = {
         for (var ii = 0; ii < unwrittenAlternatives.length; ii++) {
             var unwritten = self.alternativeMap[unwrittenAlternatives[ii]];
             for (var jj = 0; jj < numOrdering.length; jj++) {
-                resolvePairwiseForUnwritten(jj,unwritten);
+                resolveDominanceForUnwritten(jj,unwritten);
             }
         }
 
