@@ -38,16 +38,28 @@ module.exports = function schulze(P) {
 
             }
         }
+    var winners = [];	
+
+    for (var alt = 0; alt < n; alt++ ){
+
+       winners[alt] = 0;
     
-    var highest =
-        _.map(p, function (alternative) {
-            return _.max(alternative);
-        });
+    }
+
+    for(var iii = 0; iii < n; iii++){
+       for(var jjj = 0; jjj < n; jjj++){
+          if (iii != jjj){
+             if(p[jjj][iii] < p[iii][jjj]){
+	       winners[iii]++;
+	     }
+	  }
+       }
+    }
+
     
-    _.each(highest, function (strongestPath, index) {
-        
-        scores[numToName[index]] = strongestPath;
-        
+    _.each(winners, function (strongestPath, index) {
+
+        scores[numToName[index]] = winners[index];
     });
 
     return scores;
