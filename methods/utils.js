@@ -11,5 +11,18 @@ module.exports = {
         });
 
         return copy(blankScores);
+    },
+    pairwiseToDominance: function pairwiseToDominance(pairwise) {
+        var n = pairwise.length;
+        var dominance = [];
+        
+	for (var i = 0; i < n; i++) {
+            dominance[i] = [];
+            for (var j = 0; j < n; j++) {
+                dominance[i].push(pairwise[i][j] - pairwise[j][i]);
+            }
+        }
+
+	return dominance;
     }
 };

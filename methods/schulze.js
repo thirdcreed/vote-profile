@@ -3,7 +3,7 @@ var copy = require("shallow-copy");
 
 module.exports = function schulze(P) {
    
-    var d = P.dominanceMatrix;
+    var d = P.pairwiseMatrix;
     var C = P.alternatives;
     var n = P.alternatives.length;
     var p = P.initializeMatrix(n,n);
