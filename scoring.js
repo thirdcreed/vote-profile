@@ -12,5 +12,6 @@ var common = {
     plurality: require("./methods/plurality.js"),
     veto: require("./methods/veto.js"),
     black: require("./methods/black.js"),
-    schulze: require("./methods/schulze.js")
+    schulze: require("./methods/schulze.js"),
+    copeland: require("./methods/condercet.js")
 };
