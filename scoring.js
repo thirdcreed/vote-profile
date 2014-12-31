@@ -13,5 +13,6 @@ var common = {
     veto: require("./methods/veto.js"),
     black: require("./methods/black.js"),
     schulze: require("./methods/schulze.js"),
-    copeland: require("./methods/condercet.js")
+    copeland: require("./methods/condercet.js"),
+    minimax: require("./methods/minimax.js")
 };
