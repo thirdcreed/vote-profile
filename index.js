@@ -8,9 +8,9 @@ var Profile = function Profile() {
     this.alternativeMap = {};
     this.votes = [];
 
-    this.dominanceMatrix = undefined;
+    this.pairwiseMatrix = undefined;
     this.initializeMatrix = _.noop;
-    this.updateDominanceMatrix = _.noop;
+    this.updatePairwiseMatrix = _.noop;
 
     this.approvalMatrix = undefined;
     this.approvalData = _.noop;
@@ -18,8 +18,8 @@ var Profile = function Profile() {
     this.setAlternatives = function setAlternatives(alternatives) {
         if (_votingHasBegun) return;
         self.alternatives = alternatives;
-	var n = m = alternatives.length;
-        self.dominanceMatrix = self.initializeMatrix(n,m);
+	var n = alternatives.length;
+        self.pairwiseMatrix = self.initializeMatrix(n,n);
         self.alternativeMap = _.invert(alternatives);
     };
 
@@ -39,7 +39,7 @@ var Profile = function Profile() {
             "key": key
         })[0];
 
-        self.updateDominanceMatrix(ballot);
+        self.updatePairwiseMatrix(ballot);
 
         if (priorVote) {
             priorVote.numVotes++;

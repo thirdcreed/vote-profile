@@ -13,7 +13,7 @@ module.exports = {
         return matrix;
     },
 
-    "updateDominanceMatrix": function updateDominanceMatrix(ordering) {
+    "updatePairwiseMatrix": function updatePairwiseMatrix(ordering) {
         var self = this;
         var unwrittenAlternatives = _.difference(self.alternatives, ordering);
         
@@ -26,11 +26,11 @@ module.exports = {
             return self.alternativeMap[item];
         });
 
-        var resolveDominance = function(i,j){
+        var resolvePairwise = function(i,j){
 	     //Eaches are for ties, either runner ties, or opponent ties.
                    _.each(numOrdering[i],function(runner){
 		      _.each(numOrdering[j],function(opponent){
-		         self.dominanceMatrix[runner][opponent]++;
+		         self.pairwiseMatrix[runner][opponent]++;
 		      });
 		   });
 	};
@@ -38,21 +38,21 @@ module.exports = {
         for (var i = 0; i < ordering.length; i++) {
             for (var j = i; j < ordering.length; j++) {
 		if (i != j) {
-		        resolveDominance(i,j);  
+		        resolvePairwise(i,j);  
                 }
             }
         }
 
-      var resolveDominanceForUnwritten = function resolveDominanceForUnwritten(jj,unwritten){
+      var resolvePairwiseForUnwritten = function resolvePairwiseForUnwritten(jj,unwritten){
  	        _.each(numOrdering[jj],function(runner){
-		      self.dominanceMatrix[runner][unwritten]++;
+		      self.pairwiseMatrix[runner][unwritten]++;
 		});
      };
 
         for (var ii = 0; ii < unwrittenAlternatives.length; ii++) {
             var unwritten = self.alternativeMap[unwrittenAlternatives[ii]];
             for (var jj = 0; jj < numOrdering.length; jj++) {
-                resolveDominanceForUnwritten(jj,unwritten);
+                resolvePairwiseForUnwritten(jj,unwritten);
             }
         }
 

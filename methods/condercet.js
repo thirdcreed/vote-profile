@@ -1,20 +1,12 @@
 var _ = require("lodash");
 var copy = require("shallow-copy");
 var getBlankScores = require('./utils.js').getBlankScores;
-
+var pairwiseToDominance = require('./utils.js').pairwiseToDominance;
 module.exports = function condercet(P) {
 
     var scores = getBlankScores(P.alternatives);
-
-    var sumMatrix = P.dominanceMatrix;
-    var pairwise = [];
-    for (var i = 0; i < sumMatrix.length; i++) {
-        pairwise[i] = [];
-        for (var j = 0; j < sumMatrix.length; j++) {
-            pairwise[i].push(sumMatrix[i][j] - sumMatrix[j][i]);
-        }
-    }
-
+    
+    var dominance = pairwiseToDominance(P.pairwiseMatrix);
     var isVoteDeltaPositive = function isVoteDeltaPositive(voteDiff) {
         return voteDiff >= 0;
     };
@@ -29,7 +21,7 @@ module.exports = function condercet(P) {
 
     };
 
-    _.chain(pairwise)
+    _.chain(dominance)
         .map(mapToScoringObjects)
         .filter(function (alternative) {
             return alternative.winner;

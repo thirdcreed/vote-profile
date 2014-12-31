@@ -111,12 +111,12 @@ describe('Profile', function () {
 
     describe("#extend", function () {
 
-        it('should not have a dominance matrix without first extending ', function () {
-            assert.equal(undefined, noExtensionsWithTies.dominanceMatrix);
+        it('should not have a pairwise matrix without first extending ', function () {
+            assert.equal(undefined, noExtensionsWithTies.pairwiseMatrix);
         });
 
-        it('should have a dominance matrix after extending', function () {
-            assert.equal(typeof condercetNoTies.dominanceMatrix, "object");
+        it('should have a pairwise matrix after extending', function () {
+            assert.equal(typeof condercetNoTies.pairwiseMatrix, "object");
         });
     });
 
