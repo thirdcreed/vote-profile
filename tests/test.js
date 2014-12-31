@@ -16,6 +16,15 @@ describe('Profile', function () {
     var condercetWithTies = new Profile("condercet");
     var approvalNoTies = new Profile("approval");
     var schulzeNoTies = new Profile("condercet");
+    var minimaxNoTies = new Profile("condercet");
+    
+     
+    minimaxNoTies.setAlternatives(["Memphis","Nashville","Chatanooga","Knoxville"]);
+    voteNTimes(minimaxNoTies,["Memphis","Nashville","Chatanooga","Knoxville"],42);
+    voteNTimes(minimaxNoTies,["Nashville","Chatanooga","Knoxville","Memphis"],26);
+    voteNTimes(minimaxNoTies,["Chatanooga","Knoxville","Nashville","Memphis"],15);
+    voteNTimes(minimaxNoTies,["Knoxville","Chatanooga","Nashville","Memphis"],17);
+
 
     schulzeNoTies.setAlternatives(["a","b","c","d","e"]);
     voteNTimes(schulzeNoTies,["a","c","b","e","d"],5);
@@ -107,6 +116,16 @@ describe('Profile', function () {
 		"e": 31
 	 }, schulzeNoTies.score("schulze"));
        });
+      it('should correctly score with the minimax method', function(){
+         assert.deepEqual({
+	        "Nashville": 1,
+                "Knoxville": 4,
+                "Chatanooga": 3,
+		"Memphis": 2
+	 }, minimaxNoTies.score("minimax"));
+       });
+       
+       
     });
 
     describe("#extend", function () {
