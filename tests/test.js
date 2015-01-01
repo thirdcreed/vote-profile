@@ -26,12 +26,12 @@ var tenessee = function tenesee(P){
 describe('Profile', function () {
 
     var borda = tenessee(new Profile());
-    var black = tenessee(new Profile("condercet"));
-    var plurality = tenessee(new Profile("condercet"));
-    var schulze = new Profile("condercet");
-    var schulze2 = tenessee(new Profile("condercet"));
-    var minimax = tenessee(new Profile("condercet"));
-    var copeland = tenessee(new Profile("condercet"));
+    var black = tenessee(new Profile("pairwise"));
+    var plurality = tenessee(new Profile("pairwise"));
+    var schulze = new Profile("pairwise");
+    var schulze2 = tenessee(new Profile("pairwise"));
+    var minimax = tenessee(new Profile("pairwise"));
+    var copeland = tenessee(new Profile("pairwise"));
      
      
     schulze.setAlternatives(["a","b","c","d","e"]);
