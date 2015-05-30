@@ -1,6 +1,8 @@
 vote-profile
 ============
 
+[![Join the chat at https://gitter.im/thirdcreed/vote-profile](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/thirdcreed/vote-profile?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Voting profile for fair vote aggregation, and a collection of voting rules for deciding on it.  The default profile, can calculate any kind of positional vote, 
 and is easily extensible with data structures for pairwise comparisons, approval voting, grading, and multi-stage elections.  
 The project has a small but growing collection of voting rules, with a configurable elections, the goal is to make it easy to aggregate the opinions, 
